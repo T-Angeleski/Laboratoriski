@@ -5,6 +5,7 @@ import java.util.Scanner;
 class DLLNode<E> {
     protected E element;
     protected DLLNode<E> pred, succ;
+
     public DLLNode(E elem, DLLNode<E> pred, DLLNode<E> succ) {
         this.element = elem;
         this.pred = pred;
@@ -128,7 +129,7 @@ class DLL<E> {
     public int getSize() {
         int listSize = 0;
         DLLNode<E> tmp = first;
-        while(tmp != null) {
+        while (tmp != null) {
             listSize++;
             tmp = tmp.succ;
         }
@@ -186,15 +187,15 @@ class DLL<E> {
         DLLNode<E> tmp = null;
         DLLNode<E> current = first;
         last = first;
-        while(current!=null) {
+        while (current != null) {
             tmp = current.pred;
             current.pred = current.succ;
             current.succ = tmp;
             current = current.pred;
         }
 
-        if(tmp!=null && tmp.pred!=null) {
-            first=tmp.pred;
+        if (tmp != null && tmp.pred != null) {
+            first = tmp.pred;
         }
     }
 }
@@ -204,18 +205,26 @@ public class DLLVojska {
     public static DLL<Integer> vojska(DLL<Integer> lista, int a, int b, int c, int d) {
 
         //Find the 4 nodes
-        DLLNode<Integer> startFirst = lista.find(a);
-        DLLNode<Integer> endFirst = lista.find(b);
-        DLLNode<Integer> startSecond = lista.find(c);
-        DLLNode<Integer> endSecond = lista.find(d);
+        DLLNode<Integer> aNode = lista.find(a);
+        DLLNode<Integer> bNode = lista.find(b);
+        DLLNode<Integer> cNode = lista.find(c);
+        DLLNode<Integer> dNode = lista.find(d);
 
-        //Get links from nodes
-        DLLNode<Integer> start1Prev = startFirst.pred;
-        DLLNode<Integer> end1Succ = endFirst.succ;
-        DLLNode<Integer> start2Prev = startSecond.pred;
-        DLLNode<Integer> end2Succ = endSecond.succ;
+        //Shift first interval of soldiers
+        while (aNode.element != bNode.succ.element) {
+            lista.insertAfter(aNode.element, cNode.pred);
+            lista.delete(aNode);
+            aNode = aNode.succ;
+        }
 
-        //TODO
+        //Shift second interval of soldiers
+        while (cNode.element != null) {
+            lista.insertBefore(cNode.element, aNode);
+            lista.delete(cNode);
+            if (cNode.element == dNode.element)
+                break;
+            cNode = cNode.succ;
+        }
 
 
         return lista;
@@ -228,7 +237,7 @@ public class DLLVojska {
         int n = input.nextInt();
 
         DLL<Integer> lista = new DLL<>();
-        for(int i=0;i<n;i++) {
+        for (int i = 0; i < n; i++) {
             lista.insertLast(input.nextInt());
         }
 
