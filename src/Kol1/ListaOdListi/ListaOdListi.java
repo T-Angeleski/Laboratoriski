@@ -1,4 +1,4 @@
-package Kol1;
+package Kol1.ListaOdListi;
 
 import java.util.Scanner;
 
@@ -139,31 +139,52 @@ class DLL<E> {
 
 }
 
-public class PalindromeDLL {
 
-    public static int isItPalindrome(DLL<Integer> list) {
-        //Vashiot kod tuka...
-        DLLNode<Integer> start = list.getFirst();
-        DLLNode<Integer> end = list.getLast();
 
-        while (start != end) {
-            if (!start.element.equals(end.element)) return -1;
-            start = start.succ;
-            end = end.pred;
+public class ListaOdListi {
+
+    public static long findMagicNumber(DLL<DLL<Integer>> list) {
+        int[] sum = new int[list.length()];
+        int sumList = 0;
+        long result = 1;
+        int i = 0;
+        DLLNode<DLL<Integer>> tmp1 = list.getFirst();
+        while (tmp1 != null) {
+            DLL<Integer> currentList = tmp1.element;
+            DLLNode<Integer> tmp2 = currentList.getFirst();
+
+
+            while (tmp2 != null) {
+                sumList += tmp2.element;
+                tmp2 = tmp2.succ;
+            }
+
+            sum[i] += sumList;
+            i++;
+            sumList = 0;
+            tmp1 = tmp1.succ;
+        }
+        for (int j = 0; j < list.length(); j++) {
+            result *= sum[j];
         }
 
-        return 1;
+        return result;
     }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
-        DLL<Integer> list = new DLL<Integer>();
+        int m = in.nextInt();
+        DLL<DLL<Integer>> list = new DLL<DLL<Integer>>();
         for (int i = 0; i < n; i++) {
-            list.insertLast(in.nextInt());
+            DLL<Integer> tmp = new DLL<Integer>();
+            for (int j = 0; j < m; j++) {
+                tmp.insertLast(in.nextInt());
+            }
+            list.insertLast(tmp);
         }
         in.close();
-        System.out.println(isItPalindrome(list));
+        System.out.println(findMagicNumber(list));
     }
 
 }
