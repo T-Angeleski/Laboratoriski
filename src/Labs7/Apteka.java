@@ -1,6 +1,6 @@
 package Labs7;
 
-import DadeniKodovi.Heshiranje_Kodovi.OBHT;
+import DadeniKodovi.Kodovi.OBHT;
 
 import java.util.Scanner;
 import java.util.stream.IntStream;

@@ -3,8 +3,8 @@ package Kol2;
 import java.io.IOException;
 import java.util.Scanner;
 
-import DadeniKodovi.Heshiranje_Kodovi.SLL;
-import DadeniKodovi.Heshiranje_Kodovi.SLLNode;
+import DadeniKodovi.Kodovi.SLL;
+import DadeniKodovi.Kodovi.SLLNode;
 
 public class SpojSLLNaizmenicno {
 	//Spoj taka sto naizmenicno

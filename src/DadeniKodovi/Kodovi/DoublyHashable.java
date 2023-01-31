@@ -1,4 +1,4 @@
-package DadeniKodovi.Heshiranje_Kodovi;
+package DadeniKodovi.Kodovi;
 
 public interface DoublyHashable<K> extends Comparable<K> {
 

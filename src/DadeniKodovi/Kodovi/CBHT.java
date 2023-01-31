@@ -1,4 +1,4 @@
-package DadeniKodovi.Heshiranje_Kodovi;
+package DadeniKodovi.Kodovi;
 
 public class CBHT<K extends Comparable<K>, E> {
 

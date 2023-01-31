@@ -1,7 +1,7 @@
 package Kol2;
 
-import DadeniKodovi.Heshiranje_Kodovi.SLL;
-import DadeniKodovi.Heshiranje_Kodovi.SLLNode;
+import DadeniKodovi.Kodovi.SLL;
+import DadeniKodovi.Kodovi.SLLNode;
 
 import java.util.Scanner;
 

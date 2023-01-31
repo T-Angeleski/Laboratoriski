@@ -1,4 +1,4 @@
-package DadeniKodovi.Heshiranje_Kodovi;
+package DadeniKodovi.Kodovi;
 
 public class MapEntry<K extends Comparable<K>,E> implements Comparable<K> {
 

@@ -1,9 +1,11 @@
 package Kol2;
 
-import java.util.Scanner;
+import DadeniKodovi.Kodovi.SLL;
+import DadeniKodovi.Kodovi.SLLNode;
 
-import DadeniKodovi.Heshiranje_Kodovi.SLL;
-import DadeniKodovi.Heshiranje_Kodovi.SLLNode;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 class Worker {
 	int id;
@@ -73,28 +75,35 @@ public class QADEVTeamSLL {
 
 	}
 
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		int numNormal = Integer.parseInt(scanner.nextLine());
-		int numGolden = Integer.parseInt(scanner.nextLine());
 
-		SLL<Worker> normal = new SLL<Worker>();
-		SLL<Worker> golden = new SLL<Worker>();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		int m = Integer.parseInt(br.readLine());
+		SLL<Worker> devTeam = new SLL<>();
+		SLL<Worker> qaTeam = new SLL<>();
 
-		for (int i = 0; i < numNormal; i++) {
-			String line = scanner.nextLine();
-			String[] parts = line.split("\\s+");
-			normal.insertLast(new Worker(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
+		for (int i = 0; i < n; i++) {
+			String line = br.readLine();
+			String[] parts = line.split(" ");
+			Worker w = new Worker(Integer.parseInt(parts[0]),
+					Integer.parseInt(parts[1]));
+
+			devTeam.insertLast(w);
 		}
 
-		for (int i = 0; i < numGolden; i++) {
-			String line = scanner.nextLine();
-			String[] parts = line.split("\\s+");
-			golden.insertLast(new Worker(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
+		for (int i = 0; i < m; i++) {
+			String line = br.readLine();
+			String[] parts = line.split(" ");
+			Worker w = new Worker(Integer.parseInt(parts[0]),
+					Integer.parseInt(parts[1]));
+
+			qaTeam.insertLast(w);
 		}
 
-		alterTeams(normal, golden);
-		System.out.println(normal);
-		System.out.println(golden);
+		alterTeams(devTeam, qaTeam);
+		System.out.println(devTeam);
+		System.out.println(qaTeam);
 	}
+
 }

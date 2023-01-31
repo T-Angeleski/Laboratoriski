@@ -1,12 +1,10 @@
 package Labs7;
 
-import DadeniKodovi.Heshiranje_Kodovi.OBHT;
+import DadeniKodovi.Kodovi.OBHT;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class Preveduvac {

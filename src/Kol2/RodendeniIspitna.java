@@ -1,12 +1,9 @@
 package Kol2;
 
-import DadeniKodovi.Heshiranje_Kodovi.CBHT;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
 
 public class RodendeniIspitna {
 	public static void main(String[] args) throws IOException {

@@ -1,8 +1,8 @@
 package Labs7;
 
-import DadeniKodovi.Heshiranje_Kodovi.CBHT;
-import DadeniKodovi.Heshiranje_Kodovi.MapEntry;
-import DadeniKodovi.Heshiranje_Kodovi.SLLNode;
+import DadeniKodovi.Kodovi.CBHT;
+import DadeniKodovi.Kodovi.MapEntry;
+import DadeniKodovi.Kodovi.SLLNode;
 
 import java.io.BufferedReader;
 import java.io.IOException;

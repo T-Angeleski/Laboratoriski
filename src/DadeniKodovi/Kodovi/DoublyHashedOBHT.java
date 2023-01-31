@@ -1,4 +1,4 @@
-package DadeniKodovi.Heshiranje_Kodovi;
+package DadeniKodovi.Kodovi;
 
 public class DoublyHashedOBHT <K extends DoublyHashable<K>,E> {
 
