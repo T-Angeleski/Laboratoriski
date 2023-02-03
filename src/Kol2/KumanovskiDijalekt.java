@@ -1,82 +1,65 @@
 package Kol2;
 
-import DadeniKodovi.Kodovi.CBHT;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KumanovskiDijalekt {
 	public static void main(String[] args) throws IOException {
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				System.in));
-		int N = Integer.parseInt(br.readLine());
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		Map<String, String> wordsByDialect = new HashMap<>();
 
-		CBHT<String, String> dialectToStandard = new CBHT<>(N);
-
-		//nego otkolku
-		String pairs[] = new String[N];
-		for (int i = 0; i < N; i++) {
-			pairs[i] = br.readLine();
-
-			String[] parts = pairs[i].split("\\s+");
-			dialectToStandard.insert(parts[0], parts[1]);
+		for (int i = 0; i < n; i++) {
+			String[] parts = br.readLine().split(" ");
+			wordsByDialect.put(parts[0], parts[1]);
 		}
 
-		String text = br.readLine();
+		String[] words = br.readLine().split(" ");
 
-		//Vasiot kod tuka
-
-		if (N == 0) {
-			System.out.println(text);
-			return;
-		}
-
-		//With . , ?
-		String[] words = text.split("\\s+");
-		char character = '#';
-		String query, value;
-		StringBuilder result = new StringBuilder();
 
 		for (String word : words) {
-			character = '#'; //Nema character
-
+			char hasSpecial = '#';
+			//Handle special char
 			if (word.charAt(word.length() - 1) == '.' ||
 					word.charAt(word.length() - 1) == ',' ||
 					word.charAt(word.length() - 1) == '!' ||
 					word.charAt(word.length() - 1) == '?') {
-				character = word.charAt(word.length() - 1);
-
-				//Remove from end of word
+				hasSpecial = word.charAt(word.length() - 1);
 				word = word.substring(0, word.length() - 1);
-
 			}
 
-			query = word.toLowerCase();
+			//Handle uppercase
+			String filtered;
+			String result;
 
-			if (dialectToStandard.search(query) != null) {
-				value = dialectToStandard.search(query).element.value;
-
-				//If original word starts with uppercase
-				if (Character.isUpperCase(word.charAt(0))) {
-					result.append(Character.toUpperCase(value.charAt(0)));
-					result.append(value.substring(1));
-				} else {
-					//Doesn't start with uppercase
-					result.append(value);
-				}
+			if (!wordsByDialect.containsKey(word.toLowerCase())) {
+				if (hasSpecial == '#') System.out.print(word + " ");
+				else System.out.print(word + hasSpecial + " ");
 			} else {
-				//Word not in map
-				result.append(word);
+
+				if (Character.isUpperCase(word.charAt(0))) {
+					filtered = word.toLowerCase();
+					result = wordsByDialect.get(filtered);
+
+					char c = Character.toUpperCase(result.charAt(0));
+					result = c + result.substring(1);
+
+				} else {
+					result = wordsByDialect.get(word);
+				}
+
+
+				if (hasSpecial == '#') System.out.print(result + " ");
+				else {
+					result += hasSpecial;
+					System.out.print(result + " ");
+				}
 			}
-
-
-			if (character != '#') result.append(character);
-
-			result.append(" ");
 		}
-
-		System.out.println(result);
 	}
 }

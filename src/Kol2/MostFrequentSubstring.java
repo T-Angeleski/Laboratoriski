@@ -37,7 +37,8 @@ public class MostFrequentSubstring {
 		}
 
 		return longestStrings.stream()
-				.max(Comparator.comparing(String::length)).orElse(" ");
+				.max(Comparator.comparing(String::length)
+						.thenComparing(Comparator.reverseOrder())).orElse(" ");
 	}
 
 	public static void main(String[] args) throws IOException {
