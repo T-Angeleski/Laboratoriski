@@ -6,20 +6,25 @@ import DadeniKodovi.Kodovi.SLLNode;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class ReverseSLL {
-	private static void reverseList(SLL<Integer> list) {
-		//Reverse list NAPAMET
-		SLLNode<Integer> tmp = list.getFirst();
-		SLLNode<Integer> prev = null;
-		SLLNode<Integer> next;
+public class DeleteElementInSLL {
+
+	private static void deleteElement(SLL<Integer> list, int toDelete) {
+		SLLNode<Integer> tmp = list.getFirst().succ;
+		SLLNode<Integer> prev = list.getFirst();
+
+		if (prev.element == toDelete) {
+			list.first = tmp;
+		}
 
 		while (tmp != null) {
-			next = tmp.succ;
-			tmp.succ = prev;
+			if (tmp.element == toDelete) {
+				prev.succ = tmp.succ;
+				tmp = prev;
+			}
 			prev = tmp;
-			tmp = next;
+			tmp = tmp.succ;
 		}
-		list.first = prev;
+
 	}
 
 	public static void main(String[] args) {
@@ -27,8 +32,8 @@ public class ReverseSLL {
 		int n = sc.nextInt();
 		SLL<Integer> list = new SLL<>();
 		IntStream.range(0, n).mapToObj(i -> sc.nextInt()).forEach(list::insertLast);
-		reverseList(list);
+		int element = sc.nextInt();
+		deleteElement(list, element);
 		System.out.println(list);
 	}
-
 }

@@ -7,99 +7,74 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-class Driver implements Comparator<Driver> {
-	String ID;
+class Vozac {
+	String registration;
 	String name;
-	String surname;
-	int speed;
-	Date time;
-	long realTime;
+	List<Long> time;
 
-	SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-
-	public Driver(String ID, String name, String surname) {
-		this.ID = ID;
+	public Vozac(String registration, String name) {
+		this.registration = registration;
 		this.name = name;
-		this.surname = surname;
-		speed = 0;
-		realTime = 0;
+		time = new ArrayList<>();
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-
-	public Date getTime() {
+	public List<Long> getTime() {
 		return time;
-	}
-
-	public int getSpeed() {
-		return speed;
-	}
-
-	public void setRealTime(String time) throws ParseException {
-		realTime = format.parse(time).getTime();
-	}
-
-	public long getRealTime() {
-		return realTime;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%s %s", name, surname);
+		return name;
 	}
-
-	@Override
-	public int compare(Driver o1, Driver o2) {
-		return Long.compare(o1.realTime, o2.realTime);
-	}
-
-
 }
 
 public class SemaforiKolokvium {
 	public static void main(String[] args) throws ParseException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
+		int n = Integer.parseInt(br.readLine());
+		Map<String, Vozac> driversByRegistration = new HashMap<>();
+		br.lines()
+				.limit(n)
+				.forEach(line -> {
+					String[] parts = line.split(" ");
+					String registration = parts[0];
+					String name = String.format("%s %s", parts[1], parts[2]);
+					Vozac vozac = new Vozac(registration, name);
+					driversByRegistration.putIfAbsent(registration, vozac);
+				});
 
-		HashMap<String, Driver> driverByID = new HashMap<>();
-		List<Driver> overSpeedLimit = new LinkedList<>();
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		int speedLimit = Integer.parseInt(br.readLine());
+		String[] input = br.readLine().split(" ");
 
-		for (int i = 0; i < N; i++) {
-			String line = br.readLine();
-			String[] parts = line.split("\\s+");
+		for (int i = 0; i < input.length - 2; i += 3) {
 
-			Driver driver = new Driver(parts[0], parts[1], parts[2]);
-			driverByID.putIfAbsent(parts[0], driver);
+			String registration = input[i];
+			int speed = Integer.parseInt(input[i + 1]);
+			String time = input[i + 2];
+
+			if (speed > speedLimit) {
+				long timeInMs = formatter.parse(time).getTime();
+				driversByRegistration.get(registration).getTime().add(timeInMs);
+			}
+
 		}
 
-
-		int maxSpeed = Integer.parseInt(br.readLine());
-		String records = br.readLine();
-		String[] parts = records.split("\\s+");
-
-		for (int i = 0; i < parts.length - 2; i += 3) {
-
-			String id = parts[i];
-			int speed = Integer.parseInt(parts[i + 1]);
-			String time = parts[i + 2];
-
-			Driver driver = driverByID.get(id);
-			driver.setSpeed(speed);
-			driver.setRealTime(time);
-			if (driver.getSpeed() > maxSpeed) overSpeedLimit.add(driver);
+		Map<Long, Vozac> timesByVozac = new HashMap<>();
+		for (Map.Entry<String, Vozac> entry : driversByRegistration.entrySet()) {
+			List<Long> times = entry.getValue().getTime();
+			for (Long time : times) {
+				timesByVozac.put(time, entry.getValue());
+			}
 		}
 
-		overSpeedLimit.stream()
-				.sorted(Comparator.comparing(Driver::getRealTime))
-				.forEach(System.out::println);
-
-
-		br.close();
+		timesByVozac.entrySet().stream()
+				.sorted(Map.Entry.comparingByKey())
+				.forEach(driver -> System.out.println(driver.getValue()));
 	}
 }
