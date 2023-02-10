@@ -18,15 +18,36 @@ public class IPRoutingHash {
 			String filtered = "";
 			for (String anInterface : interfaces) {
 				int end = anInterface.lastIndexOf(".");
-				filtered += (anInterface.substring(0, end)) + ",";
+				filtered += (anInterface.substring(0, end)) + " ";
 			}
 			interfacesByRouter.put(router, filtered);
 		}
 
 		//Baranje
-		//int m = Integer.parseInt(br.readLine());
-		interfacesByRouter.forEach((s, s2) -> {
-			System.out.println(s + " " + s2);
-		});
+		int m = Integer.parseInt(br.readLine());
+		for (int i = 0; i < m; i++) {
+			String router = br.readLine();
+			String network = br.readLine();
+			//Delete last .
+			int toSplit = network.lastIndexOf(".");
+			network = network.substring(0, toSplit);
+
+			if (!interfacesByRouter.containsKey(router)) {
+				System.out.println("ne postoi");
+				continue;
+			}
+
+			String[] routerNetworks = interfacesByRouter.get(router).trim().split(" ");
+			boolean flag = false;
+			for (String routerNetwork : routerNetworks) {
+				if (network.equals(routerNetwork)) {
+					flag = true;
+					break;
+				}
+			}
+
+			System.out.println(flag ? "postoi" : "ne postoi");
+		}
+
 	}
 }

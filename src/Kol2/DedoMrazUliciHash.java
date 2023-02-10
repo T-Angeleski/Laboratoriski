@@ -7,7 +7,6 @@ import DadeniKodovi.Kodovi.SLLNode;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class DedoMrazUliciHash {
 	public static void main(String[] args) throws IOException {
@@ -20,7 +19,6 @@ public class DedoMrazUliciHash {
 			String street = br.readLine();
 			streetsByKids.insert(name, street);
 		}
-
 
 		int m = Integer.parseInt(br.readLine());
 		for (int i = 0; i < m; i++) {
@@ -36,10 +34,23 @@ public class DedoMrazUliciHash {
 
 					if (words[0].equalsIgnoreCase(oldValue)) {
 						//Add new match + parts[1] + parts[2]
+						//Find where to substring
+						int index = -1;
+						for (char c : valueMap.toCharArray()) {
+							if (c == ' ') {
+								index = valueMap.indexOf(c);
+								break;
+							}
+						}
+
+						String remainder = valueMap.substring(index + 1);
+
+						entry.element.value = String.format("%s %s", newValue, remainder);
 					}
 				}
 			}
-
 		}
+		String key = br.readLine();
+		System.out.println(streetsByKids.search(key).element.value);
 	}
 }
